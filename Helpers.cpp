@@ -5,16 +5,27 @@
 #include "Helpers.h"
 #include <chrono>
 #include <utility>
+#include <random>
 
 using namespace std;
 using namespace std::chrono;
 
 string create_uuid() {
-    uuid_t uuid;
-    char unparsed[100];
-    uuid_generate_random(uuid);
-    uuid_unparse(uuid, unparsed); // need to unparse because uuid is generated with weird encoding
-    return string(unparsed);
+    static random_device dev;
+    static mt19937 rng(dev());
+
+    uniform_int_distribution<int> dist(0, 15);
+
+    const char *v = "0123456789abcdef";
+    const bool dash[] = { 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0 }; // delimiters
+
+    string res;
+    for (bool i : dash) {
+        if (i) res += "-";
+        res += v[dist(rng)];
+        res += v[dist(rng)];
+    }
+    return res;
 }
 
 long int create_alarm_time(unsigned short int h, unsigned short int m, unsigned short int s) {

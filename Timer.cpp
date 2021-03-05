@@ -36,7 +36,7 @@ void Timer::set_final_message(std::function<void()> fm) noexcept {
 
 void Timer::start() {
     this->_stopped = false;
-    thread t([=, this]() {
+    thread t([this]() {
         if(_stopped) return; // guard against concurrent modification
         const auto now = system_clock::now();
         _start_time = duration_cast<milliseconds>(now.time_since_epoch()).count();

@@ -58,7 +58,7 @@ void Watch::set_final_message(std::function<void()> fm) noexcept {
 
 void Watch::start() {
     _stopped = false;
-    thread t([=, this](){
+    thread t([this](){
         if(_stopped) return;
         auto now = system_clock::now();
         this_thread::sleep_until(system_clock::from_time_t(static_cast<time_t>(_alarm_time)));
