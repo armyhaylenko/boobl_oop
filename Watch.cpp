@@ -7,7 +7,6 @@
 #include <iostream>
 #include <thread>
 #include <utility>
-#include <uuid/uuid.h>
 
 using namespace std;
 using namespace std::chrono;
